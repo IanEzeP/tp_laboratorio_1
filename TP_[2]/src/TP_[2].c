@@ -54,6 +54,10 @@
 		printf("||4. INFORMAR\n");
 		printf("||5. ALTA FORZADA DE PASAJEROS\n");
 		resultado = PedirEntero(&opcionIngresada, "||6. CERRAR PROGRAMA", "||Opcion invalida!", 0, 7);
+		if(resultado == -1)
+		{
+			printf("ERROR AL PEDIR ENTERO\n");
+		}
 		switch(opcionIngresada)
 		{
 		case 1:
@@ -64,6 +68,11 @@
 			}
 			break;
 		case 2:
+			resultado = ModificarPasajero(listaPasajeros, LEN, listaEstados, 3, listaTipos, 3);
+			if(resultado == -1)
+			{
+				printf("||No se pudo acceder al menu de modificacion\n");
+			}
 			break;
 		case 3:
 			resultado = BajaLogicaPasajero(listaPasajeros, LEN, listaEstados, 3, listaTipos, 3);
@@ -73,6 +82,11 @@
 			}
 			break;
 		case 4:
+			resultado = MenuListados(listaPasajeros, LEN, listaEstados, 3, listaTipos, 3);
+			if(resultado == -1)
+			{
+				printf("||FALLO AL MOSTRAR EL MENU DE LISTADOS\n");
+			}
 			break;
 		case 5:
 			if(banderaAltaForzada == 0)
@@ -98,12 +112,6 @@
 			break;
 		}
 	}while(opcionIngresada != 6);
-
-
-
-
-
-
 
 	system("pause");
 	return 0;

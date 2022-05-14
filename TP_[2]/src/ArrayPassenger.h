@@ -91,7 +91,7 @@ indicate UP or DOWN order
 * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
 *
 */
-int sortPassengers(Passenger* list, int len, int order);
+int sortPassengers(Passenger* list, int len, int order, sStatus* listStatus, int lenStat, sType* listType, int lenType);
 
 /** \brief print the content of passengers array
 *
@@ -111,9 +111,13 @@ indicate UP or DOWN order
 * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
 *
 */
-int sortPassengersByCode(Passenger* list, int len, int order);
+int sortPassengersByCode(Passenger* list, int len, int order, sStatus* listStatus, int lenStat, sType* listType, int lenType);
+
+int modifyPassenger(Passenger* list, int len, int index, sType* listType, int lenType);
 
 int AltaForzadaPasajeros(Passenger* list, int len);
+
+int ModificarPasajero(Passenger* list, int lenPass, sStatus* listStatus, int lenStat, sType* listType, int lenType);
 
 int BajaLogicaPasajero(Passenger* list, int lenPass, sStatus* listStatus, int lenStat, sType* listType, int lenType);
 
@@ -133,6 +137,22 @@ int BuscarRelacionPasajeroTipo(Passenger onePassenger, sType* listType, int lenT
 
 int BuscarEmpty(Passenger* list, int lenPass);
 
-//trasladar
+int MenuListados(Passenger* list, int lenPass, sStatus* listStatus, int lenStat, sType* listType, int lenType);
+
+int OrdenarPasajerosPorApellidoAscendente(Passenger* list, int len, sType* listType, int lenType);
+
+int OrdenarPasajerosPorApellidoDescendente(Passenger* list, int len, sType* listType, int lenType);
+
+int OrdenarPasajerosPorCodigoAscendente(Passenger* list, int len);
+
+int OrdenarPasajerosPorCodigoDescendente(Passenger* list, int len);
+
+int MostrarVuelosActivos(Passenger* list, int lenght, sStatus* listStatus, int lenStat, sType* listType, int lenType);
+
+int MostrarTotalYPromedioDePrecios(Passenger* list, int lenPass);
+
+int CalcularTotal(float* total, Passenger* list, int lenPass);
+
+int ContarPasajeros(int* cantidad, Passenger* list, int lenPass);
 
 #endif /* ARRAYPASSENGER_H_ */
