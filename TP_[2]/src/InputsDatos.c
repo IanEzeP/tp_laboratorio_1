@@ -182,7 +182,7 @@ int PedirStringAlfaNumerico(char* mensaje, char* mensajeError, char* cadena, int
 	printf("%s\n", mensaje);
 	while(retorno != 0)
 	{
-		if(myGetString(bufferString, sizeof(bufferString)) == 0)
+		if(myGetString(bufferString, sizeof(bufferString)) == 0 && ValidarStringAlfaNumerico(bufferString) == 0)
 		{
 			retorno = 0;
 			strncpy(cadena, bufferString, lenght);
@@ -204,7 +204,7 @@ int PedirString(char* mensaje, char* mensajeError, char* cadena, int lenght)
 	printf("%s\n", mensaje);
 	while(retorno != 0)
 	{
-		if(myGetString(bufferString, sizeof(bufferString)) == 0 && ValidarString(bufferString, sizeof(bufferString)) == 0)
+		if(myGetString(bufferString, sizeof(bufferString)) == 0 && ValidarString(bufferString) == 0)
 		{
 			retorno = 0;
 			strncpy(cadena, bufferString, lenght);
@@ -218,7 +218,7 @@ int PedirString(char* mensaje, char* mensajeError, char* cadena, int lenght)
 	return retorno;
 }
 
-int ValidarString(char* string, int size)
+int ValidarString(char* string)
 {
 	int retorno;
 	retorno = 0;
@@ -229,6 +229,41 @@ int ValidarString(char* string, int size)
 			retorno = -1;
 			break;
 		}
+	}
+	return retorno;
+}
+
+int ValidarStringAlfaNumerico(char* string)
+{
+	int retorno;
+	int banderaAlpha;
+	int banderaNum;
+	banderaAlpha = 0;
+	banderaNum = 0;
+	retorno = 0;
+
+	for(int i=0;i<strlen(string);i++)
+	{
+		if(isalpha(string[i]))
+		{
+			banderaAlpha = 1;
+		}
+		else
+		{
+			if(isdigit(string[i]))
+			{
+				banderaNum = 1;
+			}
+			else
+			{
+				retorno = -1;
+				break;
+			}
+		}
+	}
+	if(banderaAlpha == 0 || banderaNum == 0)
+	{
+		retorno = -1;
 	}
 	return retorno;
 }

@@ -100,7 +100,7 @@ int sortPassengers(Passenger* list, int len, int order);
 * \return int
 *
 */
-int printPassenger(Passenger* list, int lenght);
+int printPassenger(Passenger* list, int lenght, sStatus* listStatus, int lenStat, sType* listType, int lenType);
 
 /** \brief Sort the elements in the array of passengers, the argument order
 indicate UP or DOWN order
@@ -111,16 +111,28 @@ indicate UP or DOWN order
 * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
 *
 */
-int sortPassengers(Passenger* list, int len, int order);
+int sortPassengersByCode(Passenger* list, int len, int order);
+
+int AltaForzadaPasajeros(Passenger* list, int len);
+
+int BajaLogicaPasajero(Passenger* list, int lenPass, sStatus* listStatus, int lenStat, sType* listType, int lenType);
 
 int CargarPasajeros(Passenger* list, int lenPass, sStatus* listStatus, int lenStat, sType* listType, int lenType);
-
-int BuscarEmpty(Passenger* list, int lenPass);
 
 int PedidoDeDatos(Passenger* list, int lenPass, sStatus* listStatus, int lenStat, sType* listType, int lenType);
 
 void ListarTiposDePasajeros(sType* listType, int lenType);
 
 void ListarEstadosDeVuelo(sStatus* listStatus, int lenStat);
+
+void ImprimirUnPasajero(Passenger onePassenger, sStatus oneStatus, sType oneType);
+
+int BuscarRelacionPasajeroEstado(Passenger onePassenger, sStatus* listStatus, int lenStat);
+
+int BuscarRelacionPasajeroTipo(Passenger onePassenger, sType* listType, int lenType);
+
+int BuscarEmpty(Passenger* list, int lenPass);
+
+//trasladar
 
 #endif /* ARRAYPASSENGER_H_ */

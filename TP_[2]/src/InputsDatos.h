@@ -49,6 +49,8 @@ int PedirStringAlfaNumerico(char* mensaje, char* mensajeError, char* cadena, int
 /// @return Devuelve el numero entero tras validar que es correcto.
 int ValidarRangoEntero(char[], int, int, int);
 
+int ValidarStringAlfaNumerico(char* string);
+
 /// @brief Valida un numero entero por fuera de un rango especifico.
 /// @param Recibe una cadena de texto para informar al usuario que el dato solicitado es incorrecto.
 /// @param Recibe un numero entero que actua como limite minimo a respetar.
@@ -91,9 +93,8 @@ int ConfirmarCambios();
 
 /// @brief Valida que todos los elementos de una cadena de texto sean letras (excluyendo caracteres del codigo ASCII extendido).
 /// @param Recibe un puntero al espacio en memoria donde se copiara la cadena obtenida.
-/// @param Recibe un numero entero que definira el tamaño de la cadena.
 /// @return Devuelve 0 en caso de no encontrar fallas en la cadena y -1 en caso de encontrar un caracter erroneo.
-int ValidarString(char* string, int size);
+int ValidarString(char* string);
 
 /// @brief Lee una cadena de caracteres hasta haber encontrado un '\n' o hasta haber copiado en la cadena un maximo de "longitud-1" caracteres.
 /// @param Recibe un puntero al espacio en memoria donde se copiara la cadena obtenida.
