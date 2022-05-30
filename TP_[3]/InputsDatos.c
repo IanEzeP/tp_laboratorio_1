@@ -2,17 +2,12 @@
  * InputsDatos.c
  *
  *  Created on: 25 abr. 2022
- *      Author: User
+ *      Author: Ian
  */
 
 #include "InputsDatos.h"
 
-static int getInt(int* pResultado);
-static int isNumber(char* cadena, int limite);
-static int getFloat(float* pResultado);
-static int isFloat(char* cadena, float limite);
-
-static int getFloat(float* pResultado)
+int getFloat(float* pResultado)
 {
 	int retorno;
 	char bufferString[50];
@@ -25,7 +20,7 @@ static int getFloat(float* pResultado)
 	return retorno;
 }
 
-static int isFloat(char* cadena, float limite)
+int isFloat(char* cadena, float limite)
 {
 	int retorno;
 	int banderaPunto;
@@ -56,7 +51,7 @@ static int isFloat(char* cadena, float limite)
 	return retorno;
 }
 
-static int getInt(int* pResultado)
+int getInt(int* pResultado)
 {
 	int retorno;
 	char bufferString[50];
@@ -69,7 +64,7 @@ static int getInt(int* pResultado)
 	return retorno;
 }
 
-static int isNumber(char* cadena, int limite)
+int isNumber(char* cadena, int limite)
 {
 	int retorno;
 	retorno = -1;

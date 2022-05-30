@@ -31,7 +31,20 @@ int main()
 {
 	setbuf(stdout, NULL);
 
-	printf("Hola mundo");
+	LinkedList* listaPasajeros;
+	listaPasajeros = ll_newLinkedList();
+	int opcion = 0;
+	int resultado = 0;
+	char* path = {"./data.csv"};
+
+	do{
+		switch(opcion)
+		{
+			case 1:
+				controller_loadFromText(path,listaPasajeros);
+				break;
+		}
+	}while(opcion != 10);
 
 
     system("pause");

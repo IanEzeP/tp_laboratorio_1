@@ -14,16 +14,15 @@ typedef struct
 	char nombre[50];
 	char apellido[50];
 	float precio;
-	char codigoVuelo[4];
+	char codigoVuelo[8];
 	int tipoPasajero;
 	int estadoVuelo;
-	//int isEmpty;
 
 }Passenger;
 
 Passenger* Passenger_new();
 Passenger* Passenger_newParametros(char* idStr, char* nombreStr, char* apellidoStr, char* precioStr, char* codigoStr, char* tipoPasajeroStr, char* estadoStr);
-void Passenger_delete(Passenger* this,int id); //modificar¿? Agregado los parametros.
+void Passenger_delete(Passenger* this); //modificar? Agregado los parametros.
 
 int Passenger_setId(Passenger* this,int id);
 int Passenger_getId(Passenger* this,int* id);
@@ -43,9 +42,11 @@ int Passenger_getTipoPasajero(Passenger* this,int* tipoPasajero);
 int Passenger_setPrecio(Passenger* this,float precio);
 int Passenger_getPrecio(Passenger* this,float* precio);
 
+int Passenger_setEstado(Passenger* this,int estado);
+int Passenger_getEstado(Passenger* this,int* estado);
+
 int Passenger_compareByName(void* p1, void* p2);//unboxing
 int Passenger_compareByID(void* p1, void* p2);
-
 
 
 

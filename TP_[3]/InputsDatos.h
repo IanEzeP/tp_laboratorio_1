@@ -2,7 +2,7 @@
  * InputsDatos.h
  *
  *  Created on: 25 abr. 2022
- *      Author: User
+ *      Author: Ian
  */
 
 #ifndef INPUTSDATOS_H_
@@ -107,6 +107,13 @@ int ValidarString(char* string);
 /// @return Devuelve 0 en caso de haber obtenido una cadena correctamente y -1 en caso de que haya ocurrido un error.
 int myGetString(char* cadena, int lenght);
 
+int isNumber(char* cadena, int limite);
+
+int getInt(int* pResultado);
+
+int isFloat(char* cadena, float limite);
+
+int getFloat(float* pResultado);
 //char ValidarDistintosCaracteres(char[], char, char, char);
 
 #endif /* INPUTSDATOS_H_ */
