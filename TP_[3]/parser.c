@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Passenger.h"
+#include "InputsDatos.h"
+#include "parser.h"
 
 /** \brief Parsea los datos de los pasajeros desde el archivo data.csv (modo texto).
  *
@@ -13,33 +15,35 @@
 int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
 {
 	Passenger* unPasajero;
-	char id[10];
+	char id[50];
 	char nombre[50];
 	char apellido[50];
-	char precio[20];
-	char codigoVuelo[10];
-	char tipoPasajero[3];
-	char estadoVuelo[3];
+	char precio[50];
+	char codigoVuelo[50];
+	char tipoPasajero[50];
+	char estadoVuelo[50];
 	int retorno = -1;
 
-	pFile = fopen("./data.csv","r");//ya se envio abierto desde el controlador
-	if(pFile != NULL)
+	if(pFile != NULL && pArrayListPassenger != NULL)
 	{
 		retorno = 0;
-		while(!feof(pFile))
+		do
 		{
-			fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]",
-					id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo);
-
-			if(feof(pFile))//faltan verificaciones.
+			if(fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n",id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo)==7)
 			{
-				retorno = 1;
+				unPasajero = Passenger_newParametros(id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo);
+				if(unPasajero != NULL)
+				{
+					ll_add(pArrayListPassenger, unPasajero);
+					retorno = 1;
+				}
+			}
+			else
+			{
 				break;
 			}
-			unPasajero = Passenger_newParametros(id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo);
-			ll_add(pArrayListPassenger, unPasajero);
-		}
-		fclose(pFile);//el controller lo cierra
+		}while(feof(pFile)==0);
+
 	}
 
     return retorno;

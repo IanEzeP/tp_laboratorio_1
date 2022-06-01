@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Passenger.h"
-
+#include "InputsDatos.h"
+#include "parser.h"
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
  *
@@ -13,7 +14,30 @@
  */
 int controller_loadFromText(char* path , LinkedList* pArrayListPassenger)
 {
-    return 1;
+	FILE* pArchivo;
+	int resultado;
+	int retorno = -1;
+
+	if(path != NULL && pArrayListPassenger != NULL)
+	{
+		retorno = 0;
+		pArchivo = fopen(path, "r");
+		if(pArchivo != NULL)
+		{
+			resultado = parser_PassengerFromText(pArchivo, pArrayListPassenger);
+			if(resultado == 1)
+			{
+				retorno = 1;
+			}
+			else
+			{
+				printf("ERROR\n");
+			}
+			fclose(pArchivo);
+		}
+	}
+
+	return retorno;
 }
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo binario).
@@ -73,7 +97,28 @@ int controller_removePassenger(LinkedList* pArrayListPassenger)
  */
 int controller_ListPassenger(LinkedList* pArrayListPassenger)
 {
-    return 1;
+	Passenger* lecturaPasajeros;
+	int resultado;
+	int cantidadPasajeros;
+	int retorno = -1;
+	char* tipoPasajero;
+	char* estadoVuelo;
+	if(pArrayListPassenger != NULL)
+	{
+		retorno = 0;
+		cantidadPasajeros = ll_len(pArrayListPassenger);
+		printf("||   ID   ||     NOMBRE     ||    APELLIDO    ||     PRECIO     ||CODIGO DE VUELO||TIPO DE PASAJERO||ESTADO DEL VUELO||");
+		for(int i=0; i<cantidadPasajeros; i++)
+		{
+			lecturaPasajeros = ll_get(pArrayListPassenger, i);
+			if(Passenger_showTipoPasajero(tipoPasajero, lecturaPasajeros->tipoPasajero)==1)
+			{
+
+			}
+		}
+	}
+
+	return retorno;
 }
 
 /** \brief Ordenar pasajeros

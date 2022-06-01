@@ -22,7 +22,7 @@ typedef struct
 
 Passenger* Passenger_new();
 Passenger* Passenger_newParametros(char* idStr, char* nombreStr, char* apellidoStr, char* precioStr, char* codigoStr, char* tipoPasajeroStr, char* estadoStr);
-void Passenger_delete(Passenger* this); //modificar? Agregado los parametros.
+void Passenger_delete(Passenger* this);
 
 int Passenger_setId(Passenger* this,int id);
 int Passenger_getId(Passenger* this,int* id);
@@ -48,6 +48,10 @@ int Passenger_getEstado(Passenger* this,int* estado);
 int Passenger_compareByName(void* p1, void* p2);//unboxing
 int Passenger_compareByID(void* p1, void* p2);
 
+int Passenger_changeTipoPasajeroToInt(char* tipoPasajero);
+int Passenger_showTipoPasajero(char* tipoPasajero, int numberTipoPasajero);
 
+int Passenger_changeEstadoVueloToInt(char* estadoVuelo);
+int Passenger_showEstadoVuelo(char* estadoVuelo, int numberEstadoVuelo);
 
 #endif /* PASSENGER_H_ */

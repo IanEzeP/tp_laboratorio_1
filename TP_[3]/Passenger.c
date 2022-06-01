@@ -8,6 +8,15 @@
 #include "Passenger.h"
 #include "InputsDatos.h"
 
+#define FIRST_CLASS "1"
+#define EXECUTIVE_CLASS "2"
+#define ECONOMY_CLASS "3"
+
+#define ATERRIZADO_STATUS "1"
+#define EN_HORARIO_STATUS "2"
+#define EN_VUELO_STATUS "3"
+#define DEMORADO_STATUS "4"
+
 
 Passenger* Passenger_new()
 {
@@ -18,107 +27,79 @@ Passenger* Passenger_new()
 
 Passenger* Passenger_newParametros(char* idStr, char* nombreStr, char* apellidoStr, char* precioStr, char* codigoStr, char* tipoPasajeroStr, char* estadoStr)
 {
-	Passenger* pPasajero;
-	int resultado;
+	Passenger* pPasajero = NULL;
 	int idAuxiliar;
 	float precioAuxiliar;
 	int tipoPasajeroAuxiliar;
 	int estadoAuxiliar;
+	int bandera = 0;
 	pPasajero = Passenger_new();
 	if(pPasajero != NULL)
 	{
-		resultado = isNumber(idStr, sizeof(idStr));
-		if(resultado != 0)
+		if(Passenger_changeEstadoVueloToInt(estadoStr)==1 && Passenger_changeTipoPasajeroToInt(tipoPasajeroStr)==1)
 		{
-			printf("ID en string NO es un numero\n");
-		}
-		else
-		{
-			idAuxiliar = atoi(idStr);
-			resultado = Passenger_setId(pPasajero, idAuxiliar);
-			if(resultado != 0)
+			if(isNumber(idStr, sizeof(idStr))==1)
 			{
-				printf("ERROR en setID!\n");//sacar
+				idAuxiliar = atoi(idStr);
+				if(Passenger_setId(pPasajero, idAuxiliar)==0)
+				{
+					if(Passenger_setNombre(pPasajero, nombreStr)==0)
+					{
+						if(Passenger_setApellido(pPasajero, apellidoStr)==0)
+						{
+							if(isFloat(precioStr, sizeof(precioStr))==1)
+							{
+								precioAuxiliar = atof(precioStr);
+								if(Passenger_setPrecio(pPasajero, precioAuxiliar)==0)
+								{
+									if(Passenger_setCodigoVuelo(pPasajero, codigoStr)==0)
+									{
+										if(isNumber(tipoPasajeroStr, sizeof(tipoPasajeroStr))==1)
+										{
+											tipoPasajeroAuxiliar = atoi(tipoPasajeroStr);
+											if(Passenger_setTipoPasajero(pPasajero, tipoPasajeroAuxiliar)==0)
+											{
+												if(isNumber(estadoStr, sizeof(estadoStr))==1)
+												{
+													estadoAuxiliar = atoi(estadoStr);
+													if(Passenger_setEstado(pPasajero, estadoAuxiliar)==0)
+													{
+														bandera = 1;
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
-
-		resultado = Passenger_setNombre(pPasajero, nombreStr);
-		if(resultado != 0)
+		if(bandera == 0)
 		{
-			printf("ERROR en setNombre!\n");
-		}
-
-		resultado = Passenger_setApellido(pPasajero, apellidoStr);
-		if(resultado != 0)
-		{
-			printf("ERROR en setApellido!\n");
-		}
-
-		resultado = isFloat(precioStr, sizeof(precioStr));
-		if(resultado != 0)
-		{
-			printf("Precio en string NO es un flotante\n");
-		}
-		else
-		{
-			precioAuxiliar = atof(precioStr);
-			resultado = Passenger_setPrecio(pPasajero, precioAuxiliar);
-			if(resultado != 0)
-			{
-				printf("ERROR en setPrecio!\n");
-			}
-		}
-
-		resultado = Passenger_setCodigoVuelo(pPasajero, codigoStr);
-		if(resultado != 0)
-		{
-			printf("ERROR en setCodigoVuelo!\n");
-		}
-
-		resultado = isNumber(tipoPasajeroStr, sizeof(tipoPasajeroStr));
-		if(resultado != 0)
-		{
-			printf("TipoPassjero en string NO es un numero\n");
-		}
-		else
-		{
-			tipoPasajeroAuxiliar = atoi(tipoPasajeroStr);
-			resultado = Passenger_setTipoPasajero(pPasajero, tipoPasajeroAuxiliar);
-			if(resultado != 0)
-			{
-				printf("ERROR en setTipoPasajero!\n");
-			}
-		}
-
-		resultado = isNumber(estadoStr, sizeof(estadoStr));
-		if(resultado != 0)
-		{
-			printf("Estado en string NO es un numero\n");
-		}
-		else
-		{
-			estadoAuxiliar = atoi(estadoStr);
-			resultado = Passenger_setEstado(pPasajero, estadoAuxiliar);
-			if(resultado != 0)
-			{
-				printf("ERROR en setEstado!\n");
-			}
+			Passenger_delete(pPasajero);
+			pPasajero = NULL;
 		}
 	}
 
 	return pPasajero;
 }
 
-void Passenger_delete(Passenger* this)//hace free
+void Passenger_delete(Passenger* this)
 {
-
+	if(this != NULL)
+	{
+		free(this);
+	}
 }
 
 int Passenger_compareByName(void* p1, void* p2)
 {
 	int retorno;
-	char* nombre1;
-	char* nombre2;
+	char* nombre1 = {""};
+	char* nombre2 = {""};
 	Passenger* pasajero1;
 	Passenger* pasajero2;
 	pasajero1 = (Passenger*) p1;
@@ -127,7 +108,7 @@ int Passenger_compareByName(void* p1, void* p2)
 	retorno = Passenger_getNombre(pasajero1, nombre1);
 	if(retorno != 0)
 	{
-		printf("ERROR en getNombre!\n");
+		printf("ERROR en getNombre!\n");//borrar? agregar _delete?
 	}
 	retorno = Passenger_getNombre(pasajero2, nombre2);
 	if(retorno != 0)
@@ -340,6 +321,124 @@ int Passenger_getEstado(Passenger* this,int* estado)
 	{
 		retorno = 0;
 		*estado = this->estadoVuelo;
+	}
+	return retorno;
+}
+
+int Passenger_changeTipoPasajeroToInt(char* tipoPasajero)
+{
+	int retorno = -1;
+	if(tipoPasajero != NULL)
+	{
+		retorno = 0;
+		if(strcmp(tipoPasajero, "FirstClass")==0)
+		{
+			strcpy(tipoPasajero, FIRST_CLASS);
+			retorno = 1;
+		}
+		else
+		{
+			if(strcmp(tipoPasajero, "ExecutiveClass")==0)
+			{
+				strcpy(tipoPasajero, EXECUTIVE_CLASS);
+				retorno = 1;
+			}
+			else
+			{
+				strcpy(tipoPasajero, ECONOMY_CLASS);
+				retorno = 1;
+			}
+		}
+	}
+	return retorno;
+}
+
+int Passenger_showTipoPasajero(char* tipoPasajero, int numberTipoPasajero)
+{
+	int retorno = -1;
+	if(tipoPasajero != NULL && numberTipoPasajero > 0)
+	{
+		retorno = 0;
+		switch(numberTipoPasajero)
+		{
+			case 1:
+				strcpy(tipoPasajero, "FirstClass");
+				retorno = 1;
+				break;
+			case 2:
+				strcpy(tipoPasajero, "ExecutiveClass");
+				retorno = 1;
+				break;
+			case 3:
+				strcpy(tipoPasajero, "EconomyClass");
+				retorno = 1;
+				break;
+		}
+	}
+	return retorno;
+}
+
+int Passenger_changeEstadoVueloToInt(char* estadoVuelo)
+{
+	int retorno = -1;
+	if(estadoVuelo != NULL)
+	{
+		retorno = 0;
+		if(strcmp(estadoVuelo, "Aterrizado")==0)
+		{
+			strcpy(estadoVuelo, ATERRIZADO_STATUS);
+			retorno = 1;
+		}
+		else
+		{
+			if(strcmp(estadoVuelo, "En Horario")==0)
+			{
+				strcpy(estadoVuelo, EN_HORARIO_STATUS);
+				retorno = 1;
+			}
+			else
+			{
+				if(strcmp(estadoVuelo, "En Vuelo")==0)
+				{
+					strcpy(estadoVuelo, EN_VUELO_STATUS);
+					retorno = 1;
+				}
+				else
+				{
+					strcpy(estadoVuelo, DEMORADO_STATUS);
+					retorno = 1;
+				}
+			}
+		}
+	}
+	return retorno;
+}
+
+int Passenger_showEstadoVuelo(char* estadoVuelo, int numberEstadoVuelo)
+{
+	int retorno = -1;
+	if(estadoVuelo != NULL && numberEstadoVuelo > 0)
+	{
+		retorno = 0;
+		switch(numberEstadoVuelo)
+		{
+			case 1:
+				strcpy(estadoVuelo, "Aterrizado");
+				retorno = 1;
+				break;
+			case 2:
+				strcpy(estadoVuelo, "En Horario");
+				retorno = 1;
+				break;
+			case 3:
+				strcpy(estadoVuelo, "En Vuelo");
+				retorno = 1;
+				break;
+			case 4:
+				strcpy(estadoVuelo, "Demorado");
+				retorno = 1;
+				break;
+		}
 	}
 	return retorno;
 }
