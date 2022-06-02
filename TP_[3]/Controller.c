@@ -98,22 +98,68 @@ int controller_removePassenger(LinkedList* pArrayListPassenger)
 int controller_ListPassenger(LinkedList* pArrayListPassenger)
 {
 	Passenger* lecturaPasajeros;
-	int resultado;
 	int cantidadPasajeros;
 	int retorno = -1;
-	char* tipoPasajero;
-	char* estadoVuelo;
+	char tipoPasajeroAuxiliar[50];
+	char estadoVueloAuxiliar[50];
+	int id;
+	char nombre[50];
+	char apellido[50];
+	float precio;
+	char codigoVuelo[8];
+	int tipoPasajero;
+	int estadoVuelo;
+
 	if(pArrayListPassenger != NULL)
 	{
 		retorno = 0;
 		cantidadPasajeros = ll_len(pArrayListPassenger);
-		printf("||   ID   ||     NOMBRE     ||    APELLIDO    ||     PRECIO     ||CODIGO DE VUELO||TIPO DE PASAJERO||ESTADO DEL VUELO||");
+		printf("||   ID   ||     NOMBRE     ||    APELLIDO    ||     PRECIO     ||CODIGO DE VUELO||TIPO DE PASAJERO||ESTADO DEL VUELO||\n");
 		for(int i=0; i<cantidadPasajeros; i++)
 		{
 			lecturaPasajeros = ll_get(pArrayListPassenger, i);
-			if(Passenger_showTipoPasajero(tipoPasajero, lecturaPasajeros->tipoPasajero)==1)
+			if(lecturaPasajeros != NULL)
 			{
-
+				if(Passenger_getId(lecturaPasajeros, &id)==0)
+				{
+					if(Passenger_getNombre(lecturaPasajeros, nombre)==0)
+					{
+						if(Passenger_getApellido(lecturaPasajeros, apellido)==0)
+						{
+							if(Passenger_getPrecio(lecturaPasajeros, &precio)==0)
+							{
+								if(Passenger_getCodigoVuelo(lecturaPasajeros, codigoVuelo)==0)
+								{
+									if(Passenger_getTipoPasajero(lecturaPasajeros, &tipoPasajero)==0)
+									{
+										if(Passenger_getEstado(lecturaPasajeros, &estadoVuelo)==0)
+										{
+											if(Passenger_showTipoPasajero(tipoPasajeroAuxiliar, tipoPasajero)==1)
+											{
+												if(Passenger_showEstadoVuelo(estadoVueloAuxiliar, estadoVuelo)==1)
+												{
+													printf("||%8d||%16s||%16s||%16.2f||%15s||%16s||%16s||\n",
+															id,
+															nombre,
+															apellido,
+															precio,
+															codigoVuelo,
+															tipoPasajeroAuxiliar,
+															estadoVueloAuxiliar);
+													retorno = 1;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					printf("No se pudo mostrar al pasajero.\n");
+				}
 			}
 		}
 	}
@@ -130,7 +176,28 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_sortPassenger(LinkedList* pArrayListPassenger)
 {
-    return 1;
+	Passenger* lecturaPasajeros;
+	Passenger auxiliar;
+	int cantidadPasajeros;
+	int retorno = -1;
+
+	if(pArrayListPassenger != NULL)
+	{
+		retorno = 0;
+		cantidadPasajeros = ll_len(pArrayListPassenger);
+		for(int i=0; i<cantidadPasajeros-1; i++)
+		{
+			lecturaPasajeros = ll_get(pArrayListPassenger, i);
+			for(int j=i+1; j<cantidadPasajeros; j++)
+			{
+				//Tengo que usar la funcion de Passenger_compareByName. Despues deberia usar una de las funciones LinkedList
+				//ll_set , ll_push , ll_pop
+			}
+
+		}
+	}
+
+	return retorno;
 }
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).

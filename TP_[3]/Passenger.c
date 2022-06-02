@@ -98,8 +98,8 @@ void Passenger_delete(Passenger* this)
 int Passenger_compareByName(void* p1, void* p2)
 {
 	int retorno;
-	char* nombre1 = {""};
-	char* nombre2 = {""};
+	char nombre1[50];
+	char nombre2[50];
 	Passenger* pasajero1;
 	Passenger* pasajero2;
 	pasajero1 = (Passenger*) p1;

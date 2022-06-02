@@ -37,6 +37,9 @@ int main()
 	listaPasajeros = ll_newLinkedList();
 	int opcion = 0;
 	int resultado = 0;
+	int banderaListaCargada = 0;
+	//int banderaUnPasajero = 0;
+	//int banderaDatosGuardados = 0;
 	char* path = {"./data.csv"};
 
 	do{
@@ -57,17 +60,25 @@ int main()
 		switch(opcion)
 		{
 			case 1:
-				resultado = controller_loadFromText(path,listaPasajeros);
-				if(resultado == 1)
+				if(banderaListaCargada == 0)
 				{
-					printf("Carga de datos exitosa!\n");
-					//TEST ONLY
-					resultado = ll_len(listaPasajeros);
-					printf("elementos de la lista: %d\n", resultado);
+					resultado = controller_loadFromText(path,listaPasajeros);
+					if(resultado == 1)
+					{
+						printf("Carga de datos exitosa!\n");
+						banderaListaCargada = 1;
+						//TEST ONLY
+						resultado = ll_len(listaPasajeros);
+						printf("Elementos de la lista: %d\n", resultado);
+					}
+					else
+					{
+						printf("ERROR!\n");
+					}
 				}
 				else
 				{
-					printf("ERROR!\n");
+					printf("Los datos ya fueron cargados.\n");
 				}
 				break;
 			case 2:
@@ -79,6 +90,18 @@ int main()
 			case 5:
 				break;
 			case 6:
+				if(banderaListaCargada == 1)
+				{
+					resultado = controller_ListPassenger(listaPasajeros);
+					if(resultado != 1)
+					{
+						printf("ERROR!\n");
+					}
+				}
+				else
+				{
+					printf("No hay elementos para mostrar.\n");
+				}
 				break;
 			case 7:
 				break;
@@ -92,9 +115,6 @@ int main()
 		}
 	}while(opcion != 10);
 
-
     system("pause");
     return 0;
 }
-
-
