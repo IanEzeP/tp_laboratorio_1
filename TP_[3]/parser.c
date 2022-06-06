@@ -56,8 +56,7 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
  * \return int
  *
  */
-int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)//se puede dejar para despues
+int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)//No puede leer el csv
 {
-
-    return 1;
+	return 0;
 }

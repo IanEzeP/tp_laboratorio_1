@@ -41,7 +41,7 @@ int main()
 	//int banderaUnPasajero = 0;
 	//int banderaDatosGuardados = 0;
 	char* path = {"./data.csv"};
-
+	//char* binaryPath = {""};
 	do{
 		printf("1. Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).\n");
 		printf("2. Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).\n");
@@ -104,6 +104,18 @@ int main()
 				}
 				break;
 			case 7:
+				if(banderaListaCargada == 1)
+				{
+					resultado = controller_sortPassenger(listaPasajeros);
+					if(resultado != 1)
+					{
+						printf("ERROR!\n");
+					}
+				}
+				else
+				{
+					printf("No hay elementos para ordenar.\n");
+				}
 				break;
 			case 8:
 				break;

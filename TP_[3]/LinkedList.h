@@ -140,6 +140,6 @@ LinkedList* ll_clone(LinkedList* this);
 /// @brief ordena la lista. Tiene un puntero a una funcion como segundo parametro.
 /// @param this
 /// @param pFunc
-/// @param order
+/// @param order 0 para descendiente y 1 para ascendente.
 /// @return
-int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order);
+int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order);//tengo que usar esto
