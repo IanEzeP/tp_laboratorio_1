@@ -80,7 +80,14 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
  */
 int controller_addPassenger(LinkedList* pArrayListPassenger)
 {
-    return 1;
+	Passenger* nuevoPasajero;
+	int retorno = -1;
+
+	if(pArrayListPassenger != NULL)
+	{
+
+	}
+    return retorno;
 }
 
 /** \brief Modificar datos de pasajero
@@ -171,73 +178,87 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger)
 			switch(opcion)
 			{
 				case 1:
-					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente", "Opcion invalida! Intente nuevamente.", -1, 2);
-					printf("Ordenando...\n");
-					resultado = ll_sort(pArrayListPassenger, Passenger_compareByID, orden);
-					if(resultado == 0)
+					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente\n2.Cancelar", "Opcion invalida! Intente nuevamente.", -1, 3);
+					if(orden!=2)
 					{
-						printf("Ordenamiento realizado correctamente.\n");
-						retorno = 1;
+						printf("Ordenando...\n");
+						resultado = ll_sort(pArrayListPassenger, Passenger_compareByID, orden);
+						if(resultado == 0)
+						{
+							printf("Ordenamiento realizado correctamente.\n");
+						}
 					}
 					break;
 				case 2:
-					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente", "Opcion invalida! Intente nuevamente.", -1, 2);
-					printf("Ordenando...\n");
-					resultado = ll_sort(pArrayListPassenger, Passenger_compareByName, orden);
-					if(resultado == 0)
+					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente\n2.Cancelar", "Opcion invalida! Intente nuevamente.", -1, 3);
+					if(orden!=2)
 					{
-						printf("Ordenamiento realizado correctamente.\n");
-						retorno = 1;
+						printf("Ordenando...\n");
+						resultado = ll_sort(pArrayListPassenger, Passenger_compareByName, orden);
+						if(resultado == 0)
+						{
+							printf("Ordenamiento realizado correctamente.\n");
+						}
 					}
 					break;
 				case 3:
-					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente", "Opcion invalida! Intente nuevamente.", -1, 2);
-					printf("Ordenando...\n");
-					resultado = ll_sort(pArrayListPassenger, Passenger_compareByLastName, orden);
-					if(resultado == 0)
+					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente\n2.Cancelar", "Opcion invalida! Intente nuevamente.", -1, 3);
+					if(orden!=2)
 					{
-						printf("Ordenamiento realizado correctamente.\n");
-						retorno = 1;
+						printf("Ordenando...\n");
+						resultado = ll_sort(pArrayListPassenger, Passenger_compareByLastName, orden);
+						if(resultado == 0)
+						{
+							printf("Ordenamiento realizado correctamente.\n");
+						}
 					}
 					break;
 				case 4:
-					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente", "Opcion invalida! Intente nuevamente.", -1, 2);
-					printf("Ordenando...\n");
-					resultado = ll_sort(pArrayListPassenger, Passenger_compareByPrice, orden);
-					if(resultado == 0)
+					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente\n2.Cancelar", "Opcion invalida! Intente nuevamente.", -1, 3);
+					if(orden!=2)
 					{
-						printf("Ordenamiento realizado correctamente.\n");
-						retorno = 1;
+						printf("Ordenando...\n");
+						resultado = ll_sort(pArrayListPassenger, Passenger_compareByPrice, orden);
+						if(resultado == 0)
+						{
+							printf("Ordenamiento realizado correctamente.\n");
+						}
 					}
 					break;
 				case 5:
-					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente", "Opcion invalida! Intente nuevamente.", -1, 2);
-					printf("Ordenando...\n");
-					resultado = ll_sort(pArrayListPassenger, Passenger_compareByFlyCode, orden);
-					if(resultado == 0)
+					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente\n2.Cancelar", "Opcion invalida! Intente nuevamente.", -1, 3);
+					if(orden!=2)
 					{
-						printf("Ordenamiento realizado correctamente.\n");
-						retorno = 1;
+						printf("Ordenando...\n");
+						resultado = ll_sort(pArrayListPassenger, Passenger_compareByFlyCode, orden);
+						if(resultado == 0)
+						{
+							printf("Ordenamiento realizado correctamente.\n");
+						}
 					}
 					break;
 				case 6:
-					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente", "Opcion invalida! Intente nuevamente.", -1, 2);
-					printf("Ordenando...\n");
-					resultado = ll_sort(pArrayListPassenger, Passenger_compareByTypePassenger, orden);
-					if(resultado == 0)
+					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente\n2.Cancelar", "Opcion invalida! Intente nuevamente.", -1, 3);
+					if(orden!=2)
 					{
-						printf("Ordenamiento realizado correctamente.\n");
-						retorno = 1;
+						printf("Ordenando...\n");
+						resultado = ll_sort(pArrayListPassenger, Passenger_compareByTypePassenger, orden);
+						if(resultado == 0)
+						{
+							printf("Ordenamiento realizado correctamente.\n");
+						}
 					}
 					break;
 				case 7:
-					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente", "Opcion invalida! Intente nuevamente.", -1, 2);
-					printf("Ordenando...\n");
-					resultado = ll_sort(pArrayListPassenger, Passenger_compareByStatusFlight, orden);
-					if(resultado == 0)
+					PedirEntero(&orden, "Ingrese el tipo de orden:\n0.Descendente\n1.Ascendente\n2.Cancelar", "Opcion invalida! Intente nuevamente.", -1, 3);
+					if(orden!=2)
 					{
-						printf("Ordenamiento realizado correctamente.\n");
-						retorno = 1;
+						printf("Ordenando...\n");
+						resultado = ll_sort(pArrayListPassenger, Passenger_compareByStatusFlight, orden);
+						if(resultado == 0)
+						{
+							printf("Ordenamiento realizado correctamente.\n");
+						}
 					}
 					break;
 			}

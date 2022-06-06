@@ -21,7 +21,10 @@ typedef struct
 }Passenger;
 
 Passenger* Passenger_new();
-Passenger* Passenger_newParametros(char* idStr, char* nombreStr, char* apellidoStr, char* precioStr, char* codigoStr, char* tipoPasajeroStr, char* estadoStr);
+Passenger* Passenger_newParametrosTxt(char* idStr, char* nombreStr, char* apellidoStr, char* precioStr, char* codigoStr, char* tipoPasajeroStr, char* estadoStr);
+Passenger* Passenger_newParametrosBin(int id, char* nombre, char* apellido, float precio, char* codigoVuelo, int tipoPasajero, int estadoVuelo);
+Passenger* Passenger_requestData();
+
 void Passenger_delete(Passenger* this);
 
 void Passenger_listOne(Passenger* this);
