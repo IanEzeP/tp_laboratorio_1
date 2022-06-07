@@ -17,6 +17,18 @@
 #define EN_HORARIO_STATUS "3"
 #define EN_VUELO_STATUS "4"
 
+static int idIncrementalPasajeros();
+static int idIncrementalPasajeros()
+{
+	return 1000++;//aca va a estar el ultimo id guardado.
+}
+static int ObtenerPasajeroID();
+static int ObtenerPasajeroID()
+{
+	int valor;
+	valor = idIncrementalPasajeros();
+	return valor;
+}
 
 Passenger* Passenger_new()
 {
@@ -69,41 +81,51 @@ Passenger* Passenger_newParametrosTxt(char* idStr, char* nombreStr, char* apelli
 	return pPasajero;
 }
 
-Passenger* Passenger_newParametrosBin(int id, char* nombre, char* apellido, float precio, char* codigoVuelo, int tipoPasajero, int estadoVuelo)
-{
-	Passenger* pPasajero = NULL;
-
-	pPasajero = Passenger_new();
-
-	if(pPasajero != NULL)
-	{
-		if(Passenger_setId(pPasajero, id)!=0 ||
-		   Passenger_setNombre(pPasajero, nombre)!=0 ||
-		   Passenger_setApellido(pPasajero, apellido)!=0 ||
-		   Passenger_setPrecio(pPasajero, precio)!=0 ||
-		   Passenger_setCodigoVuelo(pPasajero, codigoVuelo)!=0 ||
-		   Passenger_setTipoPasajero(pPasajero, tipoPasajero)!=0 ||
-		   Passenger_setEstado(pPasajero, estadoVuelo)!=0)
-		{
-			Passenger_delete(pPasajero);
-			pPasajero = NULL;
-		}
-	}
-
-	return pPasajero;
-}
-
 Passenger* Passenger_requestData()
 {
 	Passenger* unPasajero;
 	int id;
-	char* nombre;
-	char* apellido;
+	char nombre[50];
+	char apellido[50];
 	float precio;
-	char* codigoVuelo;
+	char codigoVuelo[8];
 	int tipoPasajero;
 	int estadoVuelo;
+	int bandera = 0;
+	unPasajero = Passenger_new();
+	if(unPasajero != NULL)
+	{
+		if(PedirString("Ingrese su nombre:", "ERROR! Ingrese un nombre real", nombre, sizeof(nombre))==0 &&
+		   PedirString("Ingrese su apellido:", "ERROR! Ingrese un apellido real", apellido, sizeof(apellido))==0 &&
+		   PedirFlotante(&precio, "Ingrese el precio del pasaje:", "ERROR! Ingrese un precio valido:", 0, 999999999)==0 &&
+		   PedirStringAlfaNumerico("Ingrese su codigo de vuelo:", "ERROR! Ingrese un codigo valido:", codigoVuelo, sizeof(codigoVuelo))==0 &&
+		   PedirEntero(&tipoPasajero, "Elija el tipo de pasajero correspondiente:\n1.Economy Class.\n2.Executive Class.\n3.FirstClass.",
+				   "ERROR! Ingrese una opcion valida.\n1.Economy Class.\n2.Executive Class.\n3.FirstClass.", 0, 4)==0 &&
+		   PedirEntero(&estadoVuelo, "Elija el estado del vuelo correspondiente:\n1.Aterrizado.\n2.Demorado.\n3.En horario.\n4.En vuelo.",
+				   "ERROR! Ingrese una opcion valida.\n1.Aterrizado.\n2.Demorado.\n3.En horario.\n4.En vuelo.", 0, 5)==0)
+		{
+			id = ObtenerPasajeroID();
+			if(Passenger_setId(unPasajero, id)==0 &&
+			   Passenger_setNombre(unPasajero, nombre)==0 &&
+			   Passenger_setApellido(unPasajero, apellido)==0 &&
+			   Passenger_setPrecio(unPasajero, precio)==0 &&
+			   Passenger_setCodigoVuelo(unPasajero, codigoVuelo)==0 &&
+			   Passenger_setTipoPasajero(unPasajero, tipoPasajero)==0 &&
+			   Passenger_setEstado(unPasajero, estadoVuelo)==0)
+			{
+				bandera = 1;
+			}
+		}
+	}
+	if(bandera == 0)
+	{
+		Passenger_delete(unPasajero);
+		unPasajero = NULL;
+	}
+
+	return unPasajero;
 }
+
 void Passenger_delete(Passenger* this)
 {
 	if(this != NULL)
@@ -638,3 +660,28 @@ int Passenger_showEstadoVuelo(char* estadoVuelo, int numberEstadoVuelo)
 	}
 	return retorno;
 }
+
+/*
+Passenger* Passenger_newParametrosBin(int id, char* nombre, char* apellido, float precio, char* codigoVuelo, int tipoPasajero, int estadoVuelo)
+{
+	Passenger* pPasajero = NULL;
+
+	pPasajero = Passenger_new();
+
+	if(pPasajero != NULL)
+	{
+		if(Passenger_setId(pPasajero, id)!=0 ||
+		   Passenger_setNombre(pPasajero, nombre)!=0 ||
+		   Passenger_setApellido(pPasajero, apellido)!=0 ||
+		   Passenger_setPrecio(pPasajero, precio)!=0 ||
+		   Passenger_setCodigoVuelo(pPasajero, codigoVuelo)!=0 ||
+		   Passenger_setTipoPasajero(pPasajero, tipoPasajero)!=0 ||
+		   Passenger_setEstado(pPasajero, estadoVuelo)!=0)
+		{
+			Passenger_delete(pPasajero);
+			pPasajero = NULL;
+		}
+	}
+
+	return pPasajero;
+}*/

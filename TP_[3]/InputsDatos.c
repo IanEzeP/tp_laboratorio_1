@@ -177,6 +177,7 @@ int PedirStringAlfaNumerico(char* mensaje, char* mensajeError, char* cadena, int
 		{
 			retorno = 0;
 			strncpy(cadena, bufferString, lenght);
+			strupr(cadena);
 		}
 		else
 		{

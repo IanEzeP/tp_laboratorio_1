@@ -85,7 +85,13 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 
 	if(pArrayListPassenger != NULL)
 	{
-
+		retorno = 0;
+		nuevoPasajero = Passenger_requestData();
+		if(nuevoPasajero != NULL)
+		{
+			ll_add(pArrayListPassenger, nuevoPasajero);
+			retorno = 1;
+		}
 	}
     return retorno;
 }
@@ -292,3 +298,56 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
     return 1;
 }
 
+int controller_saveLastID(char* path, LinkedList* pArrayListPassenger)
+{
+	FILE* pArchivo;
+	Passenger* pPasajero;
+	int id = 0;
+	int ultimoId = 0;
+	int maximoId = 0;
+	int cantidadPasajeros;
+	int bandera = 0;
+
+	if(path != NULL && pArrayListPassenger != NULL)
+	{
+		pArchivo = fopen(path, "rb");
+		if(pArchivo != NULL)
+		{
+			fread(&ultimoId, sizeof(int), 1, pArchivo);//Parametrizar a Obtener ultimo Id del archivo
+			fclose(pArchivo);
+
+			if(ll_isEmpty(pArrayListPassenger)==0)
+			{
+				cantidadPasajeros = ll_len(pArrayListPassenger);//Parametrizar a Obtener maximo Id de la lista
+				for(int i=0; i<cantidadPasajeros; i++)
+				{
+					pPasajero = ll_get(pArrayListPassenger, i);
+					if(pPasajero != NULL)
+					{
+						Passenger_getId(pPasajero, &id);
+						if(id>maximoId)
+						{
+							maximoId = id;
+						}
+					}
+				}
+				if(maximoId > ultimoId)
+				{
+					pArchivo = fopen(path, "wb");
+					if(pArchivo != NULL)
+					{
+						fwrite(&maximoId, sizeof(int), 1, pArchivo);
+						fclose(pArchivo);
+						bandera = 1;
+					}
+				}
+			}
+			if(bandera == 0)
+			{
+				maximoId = ultimoId;
+			}
+		}
+	}
+
+	return maximoId;
+}

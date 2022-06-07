@@ -40,7 +40,7 @@ int main()
 	int banderaListaCargada = 0;
 	int banderaUnPasajero = 0;
 	//int banderaDatosGuardados = 0;
-	char* idPath = {"./save_id.csv"};
+	char* idPath = {"./lastID.txt"};
 	char* path = {"./new_data.csv"};
 	char* binaryPath = {""};
 	do{

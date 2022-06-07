@@ -57,6 +57,7 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
  *
  */
 int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)//No puede leer el csv
+//Lo voy a crear desde aca llamando Passenger_new, y voy a setear cada dato desde esta funcion
 {
 	return 0;
 }
