@@ -17,19 +17,6 @@
 #define EN_HORARIO_STATUS "3"
 #define EN_VUELO_STATUS "4"
 
-static int idIncrementalPasajeros();
-static int idIncrementalPasajeros()
-{
-	return 1000++;//aca va a estar el ultimo id guardado.
-}
-static int ObtenerPasajeroID();
-static int ObtenerPasajeroID()
-{
-	int valor;
-	valor = idIncrementalPasajeros();
-	return valor;
-}
-
 Passenger* Passenger_new()
 {
 	Passenger* auxPasajero = NULL;
@@ -71,17 +58,17 @@ Passenger* Passenger_newParametrosTxt(char* idStr, char* nombreStr, char* apelli
 				bandera = 1;
 			}
 		}
-	}
-	if(bandera == 0)
-	{
-		Passenger_delete(pPasajero);
-		pPasajero = NULL;
+		if(bandera == 0)
+		{
+			Passenger_delete(pPasajero);
+			pPasajero = NULL;
+		}
 	}
 
 	return pPasajero;
 }
 
-Passenger* Passenger_requestData()
+Passenger* Passenger_requestData(int lastId)
 {
 	Passenger* unPasajero;
 	int id;
@@ -91,7 +78,6 @@ Passenger* Passenger_requestData()
 	char codigoVuelo[8];
 	int tipoPasajero;
 	int estadoVuelo;
-	int bandera = 0;
 	unPasajero = Passenger_new();
 	if(unPasajero != NULL)
 	{
@@ -104,23 +90,19 @@ Passenger* Passenger_requestData()
 		   PedirEntero(&estadoVuelo, "Elija el estado del vuelo correspondiente:\n1.Aterrizado.\n2.Demorado.\n3.En horario.\n4.En vuelo.",
 				   "ERROR! Ingrese una opcion valida.\n1.Aterrizado.\n2.Demorado.\n3.En horario.\n4.En vuelo.", 0, 5)==0)
 		{
-			id = ObtenerPasajeroID();
-			if(Passenger_setId(unPasajero, id)==0 &&
-			   Passenger_setNombre(unPasajero, nombre)==0 &&
-			   Passenger_setApellido(unPasajero, apellido)==0 &&
-			   Passenger_setPrecio(unPasajero, precio)==0 &&
-			   Passenger_setCodigoVuelo(unPasajero, codigoVuelo)==0 &&
-			   Passenger_setTipoPasajero(unPasajero, tipoPasajero)==0 &&
-			   Passenger_setEstado(unPasajero, estadoVuelo)==0)
+			id = lastId + 1;
+			if(Passenger_setId(unPasajero, id)!=0 ||
+			   Passenger_setNombre(unPasajero, nombre)!=0 ||
+			   Passenger_setApellido(unPasajero, apellido)!=0 ||
+			   Passenger_setPrecio(unPasajero, precio)!=0 ||
+			   Passenger_setCodigoVuelo(unPasajero, codigoVuelo)!=0 ||
+			   Passenger_setTipoPasajero(unPasajero, tipoPasajero)!=0 ||
+			   Passenger_setEstado(unPasajero, estadoVuelo)!=0)
 			{
-				bandera = 1;
+				Passenger_delete(unPasajero);
+				unPasajero = NULL;
 			}
 		}
-	}
-	if(bandera == 0)
-	{
-		Passenger_delete(unPasajero);
-		unPasajero = NULL;
 	}
 
 	return unPasajero;

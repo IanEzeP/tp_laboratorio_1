@@ -39,11 +39,15 @@ int main()
 	int resultado = 0;
 	int banderaListaCargada = 0;
 	int banderaUnPasajero = 0;
-	//int banderaDatosGuardados = 0;
+	int ultimoId;
+	int banderaDatosGuardados = 0;
 	char* idPath = {"./lastID.txt"};
 	char* path = {"./new_data.csv"};
 	char* binaryPath = {""};
 	do{
+		ultimoId = controller_saveLastID(idPath, listaPasajeros);
+		printf("%d \n",ultimoId);
+
 		printf("1. Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).\n");
 		printf("2. Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).\n");
 		printf("3. Alta de pasajero.\n");
@@ -105,11 +109,12 @@ int main()
 				}
 				break;
 			case 3:
-				resultado = controller_addPassenger(listaPasajeros);
+				resultado = controller_addPassenger(listaPasajeros, ultimoId);
 				if(resultado == 1)
 				{
 					printf("Pasajero cargado de forma exitosa.\n");
 					banderaUnPasajero = 1;
+					banderaDatosGuardados = 0;
 				}
 				else
 				{
@@ -120,7 +125,11 @@ int main()
 				if(banderaListaCargada == 1 || banderaUnPasajero == 1)
 				{
 					resultado = controller_editPassenger(listaPasajeros);
-					if(resultado != 1)
+					if(resultado == 1)
+					{
+						banderaDatosGuardados = 0;
+					}
+					else
 					{
 						printf("ERROR!\n");
 					}
@@ -134,7 +143,11 @@ int main()
 				if(banderaListaCargada == 1 || banderaUnPasajero == 1)
 				{
 					resultado = controller_removePassenger(listaPasajeros);
-					if(resultado != 1)
+					if(resultado == 1)
+					{
+						banderaDatosGuardados = 0;
+					}
+					else
 					{
 						printf("ERROR!\n");
 					}
@@ -173,14 +186,23 @@ int main()
 				}
 				break;
 			case 8:
+				banderaDatosGuardados = 1;
 				break;
 			case 9:
 				break;
 			case 10:
-				printf("Cerrando aplicacion...\n");
+				if(banderaDatosGuardados == 0)
+				{
+					printf("Los datos no fueron guardados.\n");
+
+				}
+				else
+				{
+					printf("Cerrando aplicacion...\n");
+				}
 				break;
 		}
-	}while(opcion != 10);
+	}while(opcion != 10 && banderaDatosGuardados == 1);
 
     system("pause");
     return 0;

@@ -4,6 +4,7 @@
 #include "Passenger.h"
 #include "InputsDatos.h"
 #include "parser.h"
+#include "Controller.h"
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
  *
@@ -78,7 +79,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
  * \return int
  *
  */
-int controller_addPassenger(LinkedList* pArrayListPassenger)
+int controller_addPassenger(LinkedList* pArrayListPassenger, int lastId)
 {
 	Passenger* nuevoPasajero;
 	int retorno = -1;
@@ -86,7 +87,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 	if(pArrayListPassenger != NULL)
 	{
 		retorno = 0;
-		nuevoPasajero = Passenger_requestData();
+		nuevoPasajero = Passenger_requestData(lastId);
 		if(nuevoPasajero != NULL)
 		{
 			ll_add(pArrayListPassenger, nuevoPasajero);
@@ -281,9 +282,58 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger)
  * \return int
  *
  */
-int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
+int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)//ESTO
 {
-    return 1;
+	FILE* pArchivo;
+	Passenger* pPassenger;
+	int retorno = -1;
+	int cantidadPasajeros;
+	int id;
+	char nombre[50];
+	char apellido[50];
+	float precio;
+	char codigoVuelo[10];
+	int tipoPasajero;
+	int estadoVuelo;
+	char tipoPasajeroAuxiliar[50];
+	char estadoVueloAuxiliar[50];
+
+	pArchivo = fopen(path, "w");
+	if(pArchivo != NULL)
+	{
+		retorno = 1;
+		cantidadPasajeros = ll_len(pArrayListPassenger);
+		for(int i=1; i<cantidadPasajeros; i++)
+		{
+			pPassenger = ll_get(pArrayListPassenger, i);
+			if(Passenger_getId(pPassenger, &id)==0 &&
+			   Passenger_getNombre(pPassenger, nombre)==0 &&
+			   Passenger_getApellido(pPassenger, apellido)==0 &&
+			   Passenger_getPrecio(pPassenger, &precio)==0 &&
+			   Passenger_getCodigoVuelo(pPassenger, codigoVuelo)==0 &&
+			   Passenger_getTipoPasajero(pPassenger, &tipoPasajero)==0 &&
+			   Passenger_getEstado(pPassenger, &estadoVuelo)==0 &&
+			   Passenger_showTipoPasajero(tipoPasajeroAuxiliar, tipoPasajero)==1 &&
+			   Passenger_showEstadoVuelo(estadoVueloAuxiliar, estadoVuelo)==1)
+			{
+				fprintf(pArchivo, "%d,%s,%s,%f,%s,%s,%s\n", id,
+															nombre,
+															apellido,
+															precio,
+															codigoVuelo,
+															tipoPasajeroAuxiliar,
+															estadoVueloAuxiliar);
+			}
+			else
+			{
+				printf("No se pudo guardar un pasajero\n");
+				retorno = 0;
+			}
+		}
+		fclose(pArchivo);
+	}
+
+    return retorno;
 }
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo binario).
@@ -298,6 +348,24 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
     return 1;
 }
 
+int controller_getLastID(char* path)
+{
+	FILE* pArchivo;
+	int ultimoId = -1;
+	printf("Llego a segunda funcion\n");
+	if(path != NULL)
+	{printf("Path no es nulo\n");
+		pArchivo = fopen(path, "rb");
+		if(pArchivo != NULL)
+		{printf("obtengo el ultimo id\n");
+			fread(&ultimoId, sizeof(int), 1, pArchivo);
+			fclose(pArchivo);
+		}
+	}
+
+	return ultimoId;
+}
+
 int controller_saveLastID(char* path, LinkedList* pArrayListPassenger)
 {
 	FILE* pArchivo;
@@ -307,18 +375,16 @@ int controller_saveLastID(char* path, LinkedList* pArrayListPassenger)
 	int maximoId = 0;
 	int cantidadPasajeros;
 	int bandera = 0;
-
+	printf("Entre en la funcion\n");
 	if(path != NULL && pArrayListPassenger != NULL)
-	{
-		pArchivo = fopen(path, "rb");
-		if(pArchivo != NULL)
-		{
-			fread(&ultimoId, sizeof(int), 1, pArchivo);//Parametrizar a Obtener ultimo Id del archivo
-			fclose(pArchivo);
-
+	{printf("Path y pArrayListPassenger no son nulos\n");
+		ultimoId = controller_getLastID(path);
+		printf("Valor de ultimo Id %d\n", ultimoId);
+		//if(ultimoId != -1)
+		//{
 			if(ll_isEmpty(pArrayListPassenger)==0)
-			{
-				cantidadPasajeros = ll_len(pArrayListPassenger);//Parametrizar a Obtener maximo Id de la lista
+			{printf("pArrayListPassenger esta cargada\n");
+				cantidadPasajeros = ll_len(pArrayListPassenger);
 				for(int i=0; i<cantidadPasajeros; i++)
 				{
 					pPasajero = ll_get(pArrayListPassenger, i);
@@ -332,10 +398,10 @@ int controller_saveLastID(char* path, LinkedList* pArrayListPassenger)
 					}
 				}
 				if(maximoId > ultimoId)
-				{
+				{printf("El valor maximo es mayor al anterior\n");
 					pArchivo = fopen(path, "wb");
 					if(pArchivo != NULL)
-					{
+					{printf("Se escribio el nuevo valor\n");
 						fwrite(&maximoId, sizeof(int), 1, pArchivo);
 						fclose(pArchivo);
 						bandera = 1;
@@ -343,10 +409,10 @@ int controller_saveLastID(char* path, LinkedList* pArrayListPassenger)
 				}
 			}
 			if(bandera == 0)
-			{
+			{printf("el valor maximo no es mayor al ultimo id\n");
 				maximoId = ultimoId;
 			}
-		}
+		//}
 	}
 
 	return maximoId;
