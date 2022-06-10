@@ -28,6 +28,8 @@ Passenger* Passenger_requestData(int lastId);
 void Passenger_delete(Passenger* this);
 
 void Passenger_listOne(Passenger* this);
+int Passenger_modifyData(Passenger* this);
+
 
 int Passenger_setId(Passenger* this,int id);
 int Passenger_getId(Passenger* this,int* id);
@@ -60,7 +62,6 @@ int Passenger_compareByStatusFlight(void* p1, void* p2);
 
 int Passenger_changeTipoPasajeroToInt(char* tipoPasajero);
 int Passenger_showTipoPasajero(char* tipoPasajero, int numberTipoPasajero);
-
 int Passenger_changeEstadoVueloToInt(char* estadoVuelo);
 int Passenger_showEstadoVuelo(char* estadoVuelo, int numberEstadoVuelo);
 

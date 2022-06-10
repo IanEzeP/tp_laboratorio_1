@@ -106,7 +106,52 @@ int controller_addPassenger(LinkedList* pArrayListPassenger, int lastId)
  */
 int controller_editPassenger(LinkedList* pArrayListPassenger)
 {
-    return 1;
+	Passenger* pPasajero;
+	int idIngresado;
+	int cantidadPasejeros;
+	int idPasajero;
+	char nombre[51];
+	char apellido[51];
+	int retorno = -1;
+	int resultado;
+
+	if(pArrayListPassenger != NULL)
+	{
+		retorno = 0;
+		cantidadPasejeros = ll_len(pArrayListPassenger);
+		PedirEntero(&idIngresado, "Ingrese el ID del pasajero que desea modificar:", "ERROR! Ingrese un numero valido.", 0, 999999999);
+		for(int i=0; i<cantidadPasejeros; i++)
+		{
+			pPasajero = ll_get(pArrayListPassenger, i);
+			if(pPasajero != NULL)
+			{
+				resultado = Passenger_getId(pPasajero, &idPasajero);
+				if(resultado == 0 && idIngresado == idPasajero)
+				{
+					if(Passenger_getNombre(pPasajero, nombre) == 0 && Passenger_getApellido(pPasajero, apellido) == 0)
+					{
+						printf("Desea modificar al pasajero %s %s ?\n", nombre, apellido);
+						PedirEntero(&resultado, "1. Si\n2. No", "ERROR! Ingrese el numero correspondiente a la opcion deseada.", 0, 3);
+						if(resultado == 1)
+						{
+							if(Passenger_modifyData(pPasajero) != 1)
+							{
+								printf("ERROR al modificar pasajero.\n");
+							}
+						}
+						else
+						{
+							printf("Accion cancelada. Regresando al menu.\n");
+						}
+						retorno = 1;
+					}
+					break;
+				}
+			}
+		}
+	}
+
+    return retorno;
 }
 
 /** \brief Baja de pasajero
@@ -118,7 +163,56 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_removePassenger(LinkedList* pArrayListPassenger)
 {
-    return 1;
+	Passenger* pPasajero;
+	int idIngresado;
+	int cantidadPasejeros;
+	int idPasajero;
+	char nombre[51];
+	char apellido[51];
+	int retorno = -1;
+	int resultado;
+
+	if(pArrayListPassenger != NULL)
+	{
+		retorno = 0;
+		cantidadPasejeros = ll_len(pArrayListPassenger);
+		PedirEntero(&idIngresado, "Ingrese el ID del pasajero que desea remover del sistema:", "ERROR! Ingrese un numero valido.", 0, 999999999);
+		for(int i=0; i<cantidadPasejeros; i++)
+		{
+			pPasajero = ll_get(pArrayListPassenger, i);
+			if(pPasajero != NULL)
+			{
+				resultado = Passenger_getId(pPasajero, &idPasajero);
+				if(resultado == 0 && idIngresado == idPasajero)
+				{
+					if(Passenger_getNombre(pPasajero, nombre) == 0 && Passenger_getApellido(pPasajero, apellido) == 0)
+					{
+						printf("Desea remover del sistema al pasajero %s %s ?\n", nombre, apellido);
+						PedirEntero(&resultado, "1. Si\n2. No", "ERROR! Ingrese el numero correspondiente a la opcion deseada.", 0, 3);
+						if(resultado == 1)
+						{
+							if(ll_remove(pPasajero, i) == 0)
+							{
+								printf("Pasajero removido correctamente.\n");
+							}
+							else
+							{
+								printf("ERROR al remover al pasajero.\n");
+							}
+						}
+						else
+						{
+							printf("Accion cancelada. Regresando al menu.\n");
+						}
+						retorno = 1;
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	return retorno;
 }
 
 /** \brief Listar pasajeros
@@ -282,7 +376,7 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger)
  * \return int
  *
  */
-int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)//ESTO
+int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
 {
 	FILE* pArchivo;
 	Passenger* pPassenger;
@@ -303,7 +397,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)//ESTO
 	{
 		retorno = 1;
 		cantidadPasajeros = ll_len(pArrayListPassenger);
-		for(int i=1; i<cantidadPasajeros; i++)
+		for(int i=0; i<cantidadPasajeros; i++)
 		{
 			pPassenger = ll_get(pArrayListPassenger, i);
 			if(Passenger_getId(pPassenger, &id)==0 &&
@@ -328,6 +422,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)//ESTO
 			{
 				printf("No se pudo guardar un pasajero\n");
 				retorno = 0;
+				break;
 			}
 		}
 		fclose(pArchivo);
@@ -352,12 +447,12 @@ int controller_getLastID(char* path)
 {
 	FILE* pArchivo;
 	int ultimoId = -1;
-	printf("Llego a segunda funcion\n");
+
 	if(path != NULL)
-	{printf("Path no es nulo\n");
+	{
 		pArchivo = fopen(path, "rb");
 		if(pArchivo != NULL)
-		{printf("obtengo el ultimo id\n");
+		{
 			fread(&ultimoId, sizeof(int), 1, pArchivo);
 			fclose(pArchivo);
 		}
@@ -375,15 +470,14 @@ int controller_saveLastID(char* path, LinkedList* pArrayListPassenger)
 	int maximoId = 0;
 	int cantidadPasajeros;
 	int bandera = 0;
-	printf("Entre en la funcion\n");
+
 	if(path != NULL && pArrayListPassenger != NULL)
-	{printf("Path y pArrayListPassenger no son nulos\n");
+	{
 		ultimoId = controller_getLastID(path);
-		printf("Valor de ultimo Id %d\n", ultimoId);
 		//if(ultimoId != -1)
 		//{
 			if(ll_isEmpty(pArrayListPassenger)==0)
-			{printf("pArrayListPassenger esta cargada\n");
+			{
 				cantidadPasajeros = ll_len(pArrayListPassenger);
 				for(int i=0; i<cantidadPasajeros; i++)
 				{
@@ -398,10 +492,10 @@ int controller_saveLastID(char* path, LinkedList* pArrayListPassenger)
 					}
 				}
 				if(maximoId > ultimoId)
-				{printf("El valor maximo es mayor al anterior\n");
+				{
 					pArchivo = fopen(path, "wb");
 					if(pArchivo != NULL)
-					{printf("Se escribio el nuevo valor\n");
+					{
 						fwrite(&maximoId, sizeof(int), 1, pArchivo);
 						fclose(pArchivo);
 						bandera = 1;
@@ -409,7 +503,7 @@ int controller_saveLastID(char* path, LinkedList* pArrayListPassenger)
 				}
 			}
 			if(bandera == 0)
-			{printf("el valor maximo no es mayor al ultimo id\n");
+			{
 				maximoId = ultimoId;
 			}
 		//}

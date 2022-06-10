@@ -156,15 +156,6 @@ int PedirFlotante(float* pResultado, char* mensaje, char* mensajeError, float mi
 	return retorno;
 }
 
-char PedirCaracter(char mensaje[])
-{
-	char caracter;
-	printf("%s\n", mensaje);
-	fflush(stdin);
-	scanf("%c", &caracter);
-	return caracter;
-}
-
 int PedirStringAlfaNumerico(char* mensaje, char* mensajeError, char* cadena, int lenght)
 {
 	int retorno;
@@ -259,75 +250,6 @@ int ValidarStringAlfaNumerico(char* string)
 	}
 	return retorno;
 }
-/*
-int ValidarRangoEntero(char mensajeError[], int limiteInferior, int limiteSuperior, int numero)
-{
-	while(numero < limiteInferior || numero > limiteSuperior)
-	{
-		printf("%s\n", mensajeError);
-		scanf("%d", &numero);
-	}
-	return numero;
-}
-
-int ValidarRangoInversoEntero(char mensajeError[], int limiteInferior, int limiteSuperior, int numero)
-{
-	while(numero > limiteInferior && numero < limiteSuperior)
-	{
-		printf("%s\n", mensajeError);
-		scanf("%d", &numero);
-	}
-	return numero;
-}
-
-float ValidarRangoFlotante(char mensajeError[], float limiteInferior, float limiteSuperior, float numero)
-{
-	while(numero < limiteInferior || numero > limiteSuperior)
-	{
-		printf("%s\n", mensajeError);
-		scanf("%f", &numero);
-	}
-	return numero;
-}
-
-float ValidarRangoInversoFlotante(char mensajeError[], float limiteInferior, float limiteSuperior, float numero)
-{
-	while(numero > limiteInferior && numero < limiteSuperior)
-	{
-		printf("%s\n", mensajeError);
-		scanf("%f", &numero);
-	}
-	return numero;
-}*/
-
-char ValidarCaracter(char mensajeError[], char limiteInferior, char limiteSuperior, char caracter)
-{
-	while(caracter > limiteInferior && caracter < limiteSuperior)
-	{
-		printf("%s\n", mensajeError);
-		fflush(stdin);
-		scanf("%c", &caracter);
-	}
-	return caracter;
-}
-
-void FormatearNombreCompleto(char cadena[])
-{
-	int size;
-	int i;
-
-	size = strlen(cadena);
-	strlwr(cadena);
-
-	for(i=0; i<size; i++)
-	{
-		if(cadena[i-1] == 32 || i==0)
-		{
-			cadena[i] = toupper(cadena[i]);
-		}
-	}
-
-}
 
 int ConfirmarCambios()
 {
@@ -349,16 +271,3 @@ int ConfirmarCambios()
 
 	return cambioRealizado;
 }
-
-//Esta funcion se puede modificar segun lo necesite el enunciado, agregando mas caracteres esperados.
-/*
-char ValidarDistintosCaracteres(char mensajeError[], char charEsperado1, char charEsperado2, char caracterIngresado)
-{
-	while(caracterIngresado != charEsperado1 && caracterIngresado != charEsperado2)
-	{
-		printf("%s\n", mensajeError);
-		fflush(stdin);
-		scanf("%c", caracterIngresado);
-	}
-	return caracterIngresado;
-}*/

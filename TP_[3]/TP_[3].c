@@ -43,11 +43,11 @@ int main()
 	int banderaDatosGuardados = 0;
 	char* idPath = {"./lastID.txt"};
 	char* path = {"./new_data.csv"};
-	char* binaryPath = {""};
+	char* binaryPath = {"./new_data.bin"};
+
 	do{
 		ultimoId = controller_saveLastID(idPath, listaPasajeros);
-		printf("%d \n",ultimoId);
-
+		printf("%d \n",ultimoId);//TEST ONLY
 		printf("1. Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).\n");
 		printf("2. Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).\n");
 		printf("3. Alta de pasajero.\n");
@@ -131,7 +131,14 @@ int main()
 					}
 					else
 					{
-						printf("ERROR!\n");
+						if(resultado == 0)
+						{
+							printf("No se hallo el ID ingresado.\n");
+						}
+						else
+						{
+							printf("ERROR!\n");
+						}
 					}
 				}
 				else
@@ -149,7 +156,14 @@ int main()
 					}
 					else
 					{
-						printf("ERROR!\n");
+						if(resultado == 0)
+						{
+							printf("No se hallo el ID ingresado.\n");
+						}
+						else
+						{
+							printf("ERROR!\n");
+						}
 					}
 				}
 				else
@@ -186,7 +200,23 @@ int main()
 				}
 				break;
 			case 8:
-				banderaDatosGuardados = 1;
+				if(banderaListaCargada == 1)
+				{
+					resultado = controller_saveAsText(path, listaPasajeros);
+					if(resultado == 1)
+					{
+						printf("Los datos fueron guardados correctamente.\n");
+						banderaDatosGuardados = 1;
+					}
+					else
+					{
+						printf("ERROR.\n");
+					}
+				}
+				else
+				{
+					printf("No se pueden guardar datos si la lista no fue cargada.\n");
+				}
 				break;
 			case 9:
 				break;
@@ -194,7 +224,6 @@ int main()
 				if(banderaDatosGuardados == 0)
 				{
 					printf("Los datos no fueron guardados.\n");
-
 				}
 				else
 				{
@@ -202,7 +231,7 @@ int main()
 				}
 				break;
 		}
-	}while(opcion != 10 && banderaDatosGuardados == 1);
+	}while(opcion != 10 || banderaDatosGuardados == 0);
 
     system("pause");
     return 0;

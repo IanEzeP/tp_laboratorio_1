@@ -643,6 +643,208 @@ int Passenger_showEstadoVuelo(char* estadoVuelo, int numberEstadoVuelo)
 	return retorno;
 }
 
+int Passenger_modifyData(Passenger* this)
+{
+	int retorno = -1;
+	int resultado;
+	int opcion;
+
+	char tipoPasajeroAuxiliar[50];
+	char estadoVueloAuxiliar[50];
+	char nombre[50];
+	char apellido[50];
+	float precio;
+	char codigoVuelo[8];
+	int tipoPasajero;
+	int estadoVuelo;
+
+	char newTipoPasajero[50];
+	char newEstadoVuelo[50];
+	char newNombre[50];
+	char newApellido[50];
+	float newPrecio;
+	char newCodigoVuelo[8];
+
+	if(this != NULL)
+	{
+		retorno = 0;
+		if(Passenger_getNombre(this, nombre)==0 &&
+		   Passenger_getApellido(this, apellido)==0 &&
+		   Passenger_getPrecio(this, &precio)==0 &&
+		   Passenger_getCodigoVuelo(this, codigoVuelo)==0 &&
+		   Passenger_getTipoPasajero(this, &tipoPasajero)==0 &&
+		   Passenger_getEstado(this, &estadoVuelo)==0 &&
+		   Passenger_showTipoPasajero(tipoPasajeroAuxiliar, tipoPasajero)==1 &&
+		   Passenger_showEstadoVuelo(estadoVueloAuxiliar, estadoVuelo)==1)
+		{
+			do
+			{
+				printf("Datos del pasajero:\n");
+				printf("1. Nombre: %s\n",nombre);
+				printf("2. Apellido: &s\n",apellido);
+				printf("3. Precio: %f\n",precio);
+				printf("4. Codigo de Vuelo: %s\n",codigoVuelo);
+				printf("5. Tipo de pasajero: %s\n",tipoPasajeroAuxiliar);
+				printf("6. Estado de vuelo: %s\n",estadoVueloAuxiliar);
+				printf("7. Salir\n");
+				PedirEntero(&opcion, "Ingrese el numero correspondiente al dato que desea modificar", "ERROR! Ingrese un numero valido.", 0, 8);
+				switch(opcion)
+				{
+					case 1:
+						if(PedirString("Ingrese el nuevo nombre:", "ERROR! Ingrese un nombre real.", newNombre, 50)==0)
+						{
+							printf("Desea cambiar el nombre %s por %s ?\n", nombre, newNombre);
+							PedirEntero(&resultado, "1. Si\n2. No", "ERROR! Ingrese el numero correspondiente a la opcion deseada.", 0, 3);
+							if(resultado == 1)
+							{
+								if(Passenger_setNombre(this, newNombre) == 0)
+								{
+									printf("Nombre modificado correctamente.\n");
+									strcpy(nombre, newNombre);
+								}
+							}
+							else
+							{
+								printf("Accion cancelada.\n");
+							}
+						}
+						else
+						{
+							printf("ERROR\n");
+						}
+						break;
+					case 2:
+						if(PedirString("Ingrese el nuevo apellido:", "ERROR! Ingrese un apellido real.", newApellido, 50)==0)
+						{
+							printf("Desea cambiar el apellido %s por %s ?\n", apellido, newApellido);
+							PedirEntero(&resultado, "1. Si\n2. No", "ERROR! Ingrese el numero correspondiente a la opcion deseada.", 0, 3);
+							if(resultado == 1)
+							{
+								if(Passenger_setApellido(this, newApellido) == 0)
+								{
+									printf("Apellido modificado correctamente.\n");
+									strcpy(apellido, newApellido);
+								}
+							}
+							else
+							{
+								printf("Accion cancelada.\n");
+							}
+						}
+						else
+						{
+							printf("ERROR\n");
+						}
+						break;
+					case 3:
+						if(PedirFlotante(&newPrecio, "Ingrese el nuevo precio:", "ERROR! Ingrese un precio valido", 0, 999999999)==0)
+						{
+							printf("Desea cambiar el precio de %f a %f ?\n", precio, newPrecio);
+							PedirEntero(&resultado, "1. Si\n2. No", "ERROR! Ingrese el numero correspondiente a la opcion deseada.", 0, 3);
+							if(resultado == 1)
+							{
+								if(Passenger_setPrecio(this, newPrecio) == 0)
+								{
+									printf("Precio modificado correctamente.\n");
+									precio = newPrecio;
+								}
+							}
+							else
+							{
+								printf("Accion cancelada.\n");
+							}
+						}
+						else
+						{
+							printf("ERROR\n");
+						}
+						break;
+					case 4:
+						if(PedirStringAlfaNumerico("Ingrese el nuevo codigo de vuelo:", "ERROR! Ingrese un codigo valido.", newCodigoVuelo, 8)==0)
+						{
+							printf("Desea cambiar el codigo de vuelo %s por %s ?\n", codigoVuelo, newCodigoVuelo);
+							PedirEntero(&resultado, "1. Si\n2. No", "ERROR! Ingrese el numero correspondiente a la opcion deseada.", 0, 3);
+							if(resultado == 1)
+							{
+								if(Passenger_setCodigoVuelo(this, newCodigoVuelo) == 0)
+								{
+									printf("Codigo de vuelo modificado correctamente.\n");
+									strcpy(codigoVuelo, newCodigoVuelo);
+								}
+							}
+							else
+							{
+								printf("Accion cancelada.\n");
+							}
+						}
+						else
+						{
+							printf("ERROR\n");
+						}
+						break;
+					case 5:
+						if(PedirEntero(&tipoPasajero, "Elija el nuevo Tipo de pasajero:\n1.Economy Class\n2.Executive Class\n3.First Class", "ERROR! Ingrese una opcion valida", 0, 4)==0)
+						{
+							if(Passenger_showTipoPasajero(newTipoPasajero, tipoPasajero) == 1)
+							{
+								printf("Desea cambiar al tipo de pasajero de %s a %s ?\n", tipoPasajeroAuxiliar, newTipoPasajero);
+								PedirEntero(&resultado, "1. Si\n2. No", "ERROR! Ingrese el numero correspondiente a la opcion deseada.", 0, 3);
+								if(resultado == 1)
+								{
+									if(Passenger_setTipoPasajero(this, tipoPasajero) == 0)
+									{
+										printf("Tipo de pasajero modificado correctamente.\n");
+										strcpy(tipoPasajeroAuxiliar, newTipoPasajero);
+									}
+								}
+								else
+								{
+									printf("Accion cancelada.\n");
+								}
+							}
+						}
+						else
+						{
+							printf("ERROR\n");
+						}
+						break;
+					case 6:
+						if(PedirEntero(&estadoVuelo, "Elija el nuevo Estado de vuelo:\n1.Aterrizado\n2.Demorado\n3.En Horario\n4.En Vuelo", "ERROR! Ingrese una opcion valida", 0, 5)==0)
+						{
+							if(Passenger_showEstadoVuelo(newEstadoVuelo, estadoVuelo) == 1)
+							{
+								printf("Desea cambiar el estado de vuelo de %s a %s ?\n", estadoVueloAuxiliar, newEstadoVuelo);
+								PedirEntero(&resultado, "1. Si\n2. No", "ERROR! Ingrese el numero correspondiente a la opcion deseada.", 0, 3);
+								if(resultado == 1)
+								{
+									if(Passenger_setEstado(this, estadoVuelo) == 0)
+									{
+										printf("Estado de vuelo modificado correctamente.\n");
+										strcpy(estadoVueloAuxiliar, newEstadoVuelo);
+									}
+								}
+								else
+								{
+									printf("Accion cancelada.\n");
+								}
+							}
+						}
+						else
+						{
+							printf("ERROR\n");
+						}
+						break;
+					case 7:
+						retorno = 1;
+						printf("Modificacion finalizada. Regresando al menu.\n");
+						break;
+				}
+			}while(opcion != 7);
+		}
+	}
+
+	return retorno;
+}
 /*
 Passenger* Passenger_newParametrosBin(int id, char* nombre, char* apellido, float precio, char* codigoVuelo, int tipoPasajero, int estadoVuelo)
 {
