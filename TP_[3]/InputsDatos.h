@@ -67,13 +67,16 @@ int ValidarString(char* string);
 /// @return Devuelve 0 en caso de haber obtenido una cadena correctamente y -1 en caso de que haya ocurrido un error.
 int myGetString(char* cadena, int lenght);
 
+/// @brief Verifica que una cadena de caracteres este compuesta totalmente por numeros enteros.
+/// @param Recibe la cadena de caracteres a analizar.
+/// @param Recibe un numero entero que representa el tamaño de la cadena.
+/// @return Devuelve 1 en caso de que la cadena cumpla con las codiciones, 0 en el caso contrario y -1 si da error.
 int isNumber(char* cadena, int limite);
 
-int getInt(int* pResultado);
-
+/// @brief Verifica que una cadena de caracteres este compuesta totalmente por numeros flotantes.
+/// @param Recibe la cadena de caracteres a analizar.
+/// @param Recibe un numero entero que representa el tamaño de la cadena.
+/// @return Devuelve 1 en caso de que la cadena cumpla con las codiciones, 0 en el caso contrario y -1 si da error.
 int isFloat(char* cadena, float limite);
-
-int getFloat(float* pResultado);
-
 
 #endif /* INPUTSDATOS_H_ */

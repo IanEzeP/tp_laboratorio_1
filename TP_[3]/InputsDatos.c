@@ -7,7 +7,10 @@
 
 #include "InputsDatos.h"
 
-int getFloat(float* pResultado)
+static int getInt(int* pResultado);
+static int getFloat(float* pResultado);
+
+static int getFloat(float* pResultado)
 {
 	int retorno;
 	char bufferString[50];
@@ -51,7 +54,7 @@ int isFloat(char* cadena, float limite)
 	return retorno;
 }
 
-int getInt(int* pResultado)
+static int getInt(int* pResultado)
 {
 	int retorno;
 	char bufferString[50];

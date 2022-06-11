@@ -56,8 +56,26 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
  * \return int
  *
  */
-int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)//No puede leer el csv
-//Lo voy a crear desde aca llamando Passenger_new, y voy a setear cada dato desde esta funcion
+int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)
 {
-	return 0;
+	int retorno = -1;
+	int resultado;
+	Passenger* unPasajero;
+
+	if(pFile != NULL && pArrayListPassenger != NULL)
+	{
+		retorno = 0;
+		do
+		{
+			unPasajero = Passenger_new();
+			resultado = fread(unPasajero, sizeof(Passenger), 1, pFile);
+			if(resultado != 0 && unPasajero != NULL)
+			{
+				ll_add(pArrayListPassenger, unPasajero);
+				retorno = 1;
+			}
+		}while(feof(pFile)==0);
+	}
+
+	return retorno;
 }

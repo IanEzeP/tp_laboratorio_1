@@ -681,7 +681,7 @@ int Passenger_modifyData(Passenger* this)
 			{
 				printf("Datos del pasajero:\n");
 				printf("1. Nombre: %s\n",nombre);
-				printf("2. Apellido: &s\n",apellido);
+				printf("2. Apellido: %s\n",apellido);
 				printf("3. Precio: %f\n",precio);
 				printf("4. Codigo de Vuelo: %s\n",codigoVuelo);
 				printf("5. Tipo de pasajero: %s\n",tipoPasajeroAuxiliar);
@@ -845,27 +845,3 @@ int Passenger_modifyData(Passenger* this)
 
 	return retorno;
 }
-/*
-Passenger* Passenger_newParametrosBin(int id, char* nombre, char* apellido, float precio, char* codigoVuelo, int tipoPasajero, int estadoVuelo)
-{
-	Passenger* pPasajero = NULL;
-
-	pPasajero = Passenger_new();
-
-	if(pPasajero != NULL)
-	{
-		if(Passenger_setId(pPasajero, id)!=0 ||
-		   Passenger_setNombre(pPasajero, nombre)!=0 ||
-		   Passenger_setApellido(pPasajero, apellido)!=0 ||
-		   Passenger_setPrecio(pPasajero, precio)!=0 ||
-		   Passenger_setCodigoVuelo(pPasajero, codigoVuelo)!=0 ||
-		   Passenger_setTipoPasajero(pPasajero, tipoPasajero)!=0 ||
-		   Passenger_setEstado(pPasajero, estadoVuelo)!=0)
-		{
-			Passenger_delete(pPasajero);
-			pPasajero = NULL;
-		}
-	}
-
-	return pPasajero;
-}*/

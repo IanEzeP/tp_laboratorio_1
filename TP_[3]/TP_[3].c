@@ -37,17 +37,18 @@ int main()
 	listaPasajeros = ll_newLinkedList();
 	int opcion = 0;
 	int resultado = 0;
-	int banderaListaCargada = 0;
-	int banderaUnPasajero = 0;
+	int banderaListaCargadaTxT = 0;
+	int banderaListaCargadaBin = 0;
 	int ultimoId;
-	int banderaDatosGuardados = 0;
+	int banderaDatosGuardadosTxT = 0;
+	int banderaDatosGuardadosBin = 0;
+
 	char* idPath = {"./lastID.txt"};
 	char* path = {"./new_data.csv"};
 	char* binaryPath = {"./new_data.bin"};
 
 	do{
 		ultimoId = controller_saveLastID(idPath, listaPasajeros);
-		printf("%d \n",ultimoId);//TEST ONLY
 		printf("1. Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).\n");
 		printf("2. Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).\n");
 		printf("3. Alta de pasajero.\n");
@@ -65,16 +66,13 @@ int main()
 		switch(opcion)
 		{
 			case 1:
-				if(banderaListaCargada == 0)
+				if(banderaListaCargadaTxT == 0 && banderaListaCargadaBin == 0)
 				{
 					resultado = controller_loadFromText(path,listaPasajeros);
 					if(resultado == 1)
 					{
 						printf("Carga de datos exitosa!\n");
-						banderaListaCargada = 1;
-						//TEST ONLY
-						resultado = ll_len(listaPasajeros);
-						printf("Elementos de la lista: %d\n", resultado);
+						banderaListaCargadaTxT = 1;
 					}
 					else
 					{
@@ -87,16 +85,13 @@ int main()
 				}
 				break;
 			case 2:
-				if(banderaListaCargada == 0)
+				if(banderaListaCargadaTxT == 0 && banderaListaCargadaBin == 0)
 				{
 					resultado = controller_loadFromBinary(binaryPath, listaPasajeros);
 					if(resultado == 1)
 					{
 						printf("Carga de datos exitosa.\n");
-						banderaListaCargada = 1;
-						//TEST ONLY
-						resultado = ll_len(listaPasajeros);
-						printf("Elementos de la lista: %d\n", resultado);
+						banderaListaCargadaBin = 1;
 					}
 					else
 					{
@@ -113,8 +108,8 @@ int main()
 				if(resultado == 1)
 				{
 					printf("Pasajero cargado de forma exitosa.\n");
-					banderaUnPasajero = 1;
-					banderaDatosGuardados = 0;
+					banderaDatosGuardadosTxT = 0;
+					banderaDatosGuardadosBin = 0;
 				}
 				else
 				{
@@ -122,12 +117,13 @@ int main()
 				}
 				break;
 			case 4:
-				if(banderaListaCargada == 1 || banderaUnPasajero == 1)
+				if(ll_isEmpty(listaPasajeros)==0)
 				{
 					resultado = controller_editPassenger(listaPasajeros);
 					if(resultado == 1)
 					{
-						banderaDatosGuardados = 0;
+						banderaDatosGuardadosTxT = 0;
+						banderaDatosGuardadosBin = 0;
 					}
 					else
 					{
@@ -147,12 +143,13 @@ int main()
 				}
 				break;
 			case 5:
-				if(banderaListaCargada == 1 || banderaUnPasajero == 1)
+				if(ll_isEmpty(listaPasajeros)==0)
 				{
 					resultado = controller_removePassenger(listaPasajeros);
 					if(resultado == 1)
 					{
-						banderaDatosGuardados = 0;
+						banderaDatosGuardadosTxT = 0;
+						banderaDatosGuardadosBin = 0;
 					}
 					else
 					{
@@ -172,7 +169,7 @@ int main()
 				}
 				break;
 			case 6:
-				if(banderaListaCargada == 1 || banderaUnPasajero == 1)
+				if(ll_isEmpty(listaPasajeros)==0)
 				{
 					resultado = controller_ListPassenger(listaPasajeros);
 					if(resultado != 1)
@@ -186,7 +183,7 @@ int main()
 				}
 				break;
 			case 7:
-				if(banderaListaCargada == 1 || banderaUnPasajero == 1)
+				if(ll_isEmpty(listaPasajeros)==0)
 				{
 					resultado = controller_sortPassenger(listaPasajeros);
 					if(resultado != 0)
@@ -200,13 +197,13 @@ int main()
 				}
 				break;
 			case 8:
-				if(banderaListaCargada == 1)
+				if(banderaListaCargadaTxT == 1 || banderaListaCargadaBin == 1)
 				{
 					resultado = controller_saveAsText(path, listaPasajeros);
 					if(resultado == 1)
 					{
 						printf("Los datos fueron guardados correctamente.\n");
-						banderaDatosGuardados = 1;
+						banderaDatosGuardadosTxT = 1;
 					}
 					else
 					{
@@ -219,11 +216,28 @@ int main()
 				}
 				break;
 			case 9:
+				if(banderaListaCargadaTxT == 1 || banderaListaCargadaBin == 1)
+				{
+					resultado = controller_saveAsBinary(binaryPath, listaPasajeros);
+					if(resultado == 1)
+					{
+						printf("Los datos fueron guardados correctamente.\n");
+						banderaDatosGuardadosBin = 1;
+					}
+					else
+					{
+						printf("ERROR.\n");
+					}
+				}
+				else
+				{
+					printf("No se pueden guardar datos si la lista no fue cargada.\n");
+				}
 				break;
 			case 10:
-				if(banderaDatosGuardados == 0)
+				if(banderaDatosGuardadosTxT == 0 || banderaDatosGuardadosBin == 0)
 				{
-					printf("Los datos no fueron guardados.\n");
+					printf("No puede cerrar la aplicacion sin guardar los datos.\n");
 				}
 				else
 				{
@@ -231,7 +245,7 @@ int main()
 				}
 				break;
 		}
-	}while(opcion != 10 || banderaDatosGuardados == 0);
+	}while(opcion != 10 || banderaDatosGuardadosTxT == 0 || banderaDatosGuardadosBin == 0);
 
     system("pause");
     return 0;
